@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABM Store | المتجر الرقمي</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+  :root{
+    --navy:#0E1B2A;
+    --navy-2:#142840;
+    --navy-deep:#0A1320;
+    --gold:#D9B36A;
+    --teal:#3FD0C9;
+    --ink:#F4EFE6;
+    --muted:#AAC0D2;
+    --glass: rgba(14,27,42,.55);
+    --glass-strong: rgba(10,19,32,.78);
+    --border: rgba(217,179,106,.28);
+  }
+
+  *{margin:0; padding:0; box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    font-family:'Almarai', 'Segoe UI', Tahoma, Arial, sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  /* ===== خلفية الموقع الثابتة (الصورة الخاصة بك) ===== */
+  .bg-fixed{
+    position:fixed;
+    inset:0;
+    width:100vw;
+    height:100vh;
+    background-image:url('https://raw.githubusercontent.com/mohammedtaqi19834/A-B-M-stuff.github.io/main/798A881F-0810-4083-A767-0D689369CA35.png');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    z-index:-2;
+  }
+
+  a{ color:inherit; }
+
+  /* ===== الهيدر العلوي ===== */
+  .navbar{
+    position:sticky;
+    top:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 6vw;
+    background:rgba(10,19,32,.55);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border);
+  }
+
+  .nav-brand{
+    font-family:'Lalezar', 'Tahoma', sans-serif;
+    font-size:1.7rem;
+    color:var(--gold);
+    letter-spacing:1px;
+    text-decoration:none;
+    white-space:nowrap;
+  }
+  .nav-brand span{
+    font-family:'Almarai', sans-serif;
+    font-size:.95rem;
+    font-weight:400;
+    color:var(--muted);
+    margin-right:8px;
+  }
+
+  .nav-toggle{
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    gap:5px;
+    width:34px; height:34px;
+    background:none;
+    border:none;
+    cursor:pointer;
+  }
+  .nav-toggle span{
+    display:block;
+    width:100%;
+    height:3px;
+    background:var(--ink);
+    border-radius:2px;
+  }
+
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:30px;
+  }
+  .nav-links a{
+    text-decoration:none;
+    color:var(--ink);
+    font-weight:700;
+    font-size:.95rem;
+    transition:color .25s;
+  }
+  .nav-links a:hover{ color:var(--teal); }
+
+  .nav-cta{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--gold);
+    color:var(--navy-deep) !important;
+    padding:10px 22px;
+    border-radius:999px;
+    font-weight:800 !important;
+    transition:background .25s;
+  }
+  .nav-cta:hover{ background:var(--teal) !important; color:var(--navy-deep) !important; }
+
+  /* ===== القسم الرئيسي (الترحيب) ===== */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:140px 5vw 90px;
+  }
+  .hero-card{
+    max-width:680px;
+    text-align:center;
+    background:var(--glass);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border:1px solid var(--border);
+    border-radius:26px;
+    padding:50px 44px;
+    box-shadow:0 25px 70px rgba(0,0,0,.4);
+  }
+  .eyebrow{
+    display:inline-block;
+    color:var(--teal);
+    font-weight:800;
+    letter-spacing:3px;
+    font-size:.8rem;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .hero h1{
+    font-family:'Lalezar', 'Tahoma', sans-serif;
+    font-size:clamp(2.1rem, 5vw, 3.4rem);
+    color:var(--gold);
+    margin-bottom:18px;
+    line-height:1.5;
+  }
+  .hero p{
+    color:var(--muted);
+    font-size:1.05rem;
+    line-height:2;
+    margin-bottom:32px;
+  }
+  .hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    justify-content:center;
+  }
+
+  /* ===== أزرار عامة ===== */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 30px;
+    border-radius:999px;
+    text-decoration:none;
+    font-weight:800;
+    font-size:.95rem;
+    border:2px solid transparent;
+    transition:all .25s;
+    cursor:pointer;
+  }
+  .btn-primary{ background:var(--gold); color:var(--navy-deep); }
+  .btn-primary:hover{ background:var(--teal); transform:translateY(-2px); }
+  .btn-outline{
+    border-color:var(--gold);
+    color:var(--ink);
+    background:transparent;
+  }
+  .btn-outline:hover{ border-color:var(--teal); color:var(--teal); transform:translateY(-2px); }
+  .btn-small{
+    padding:9px 20px;
+    font-size:.85rem;
+    background:var(--teal);
+    color:var(--navy-deep);
+  }
+  .btn-small:hover{ background:var(--gold); }
+
+  /* ===== الأقسام العامة ===== */
+  .section{ padding:100px 6vw; }
+  .section.alt{ background:rgba(10,19,32,.38); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+
+  .section-head{
+    text-align:center;
+    max-width:680px;
+    margin:0 auto 56px;
+  }
+  .section-head .eyebrow{ margin-bottom:8px; }
+  .section-head h2{
+    font-family:'Lalezar', 'Tahoma', sans-serif;
+    font-size:clamp(1.9rem, 4vw, 2.7rem);
+    color:var(--gold);
+    margin-bottom:14px;
+  }
+  .section-head p{ color:var(--muted); }
+  .divider{
+    width:64px;
+    height:4px;
+    background:var(--teal);
+    margin:14px auto 0;
+    border-radius:2px;
+  }
+
+  /* ===== شبكة البطاقات ===== */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:28px;
+    max-width:1140px;
+    margin:0 auto;
+  }
+  .card{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    background:var(--glass);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:34px 28px;
+    transition:transform .3s, border-color .3s;
+  }
+  .card:hover{ transform:translateY(-6px); border-color:var(--teal); }
+  .card-icon{
+    width:58px; height:58px;
+    border-radius:16px;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(217,179,106,.15);
+    color:var(--gold);
+    font-size:1.6rem;
+  }
+  .card h3{ font-size:1.2rem; color:var(--ink); }
+  .card p{ color:var(--muted); font-size:.92rem; flex:1; }
+  .card-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-top:14px;
+    border-top:1px solid var(--border);
+  }
+  .price{ color:var(--teal); font-weight:800; font-size:.95rem; }
+
+  /* ===== قسم الدفع ===== */
+  .payment-card{
+    max-width:600px;
+    margin:0 auto;
+    text-align:center;
+    background:var(--glass);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:54px 36px;
+  }
+  .payment-card .pay-icon{
+    width:74px; height:74px;
+    border-radius:18px;
+    margin:0 auto 22px;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(63,208,201,.15);
+    color:var(--teal);
+    font-size:2rem;
+  }
+  .payment-card h2{
+    font-family:'Lalezar', 'Tahoma', sans-serif;
+    color:var(--gold);
+    font-size:1.8rem;
+    margin-bottom:14px;
+  }
+  .payment-card p{ color:var(--muted); margin-bottom:18px; }
+  .badge{
+    display:inline-block;
+    padding:7px 22px;
+    border-radius:999px;
+    border:1px solid var(--teal);
+    color:var(--teal);
+    background:rgba(63,208,201,.12);
+    font-weight:800;
+    font-size:.85rem;
+    letter-spacing:1px;
+  }
+
+  /* ===== قسم التواصل ===== */
+  .contact-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:28px;
+    max-width:760px;
+    margin:0 auto;
+  }
+  .contact-card{
+    display:block;
+    text-decoration:none;
+    text-align:center;
+    background:var(--glass);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:38px 28px;
+    transition:transform .3s, border-color .3s;
+  }
+  .contact-card:hover{ transform:translateY(-6px); border-color:var(--teal); }
+  .contact-card i{
+    display:block;
+    font-size:2.2rem;
+    color:var(--gold);
+    margin-bottom:14px;
+  }
+  .contact-card h3{ color:var(--ink); margin-bottom:6px; font-size:1.15rem; }
+  .contact-card span{ color:var(--muted); font-size:.9rem; direction:ltr; display:inline-block; }
+
+  /* ===== التذييل ===== */
+  .site-footer{
+    background:rgba(8,15,25,.85);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-top:1px solid var(--border);
+    padding:64px 6vw 28px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:40px;
+    max-width:1140px;
+    margin:0 auto 40px;
+  }
+  .footer-col h4{
+    font-family:'Lalezar', 'Tahoma', sans-serif;
+    color:var(--gold);
+    font-size:1.15rem;
+    margin-bottom:18px;
+  }
+  .footer-col p{ color:var(--muted); font-size:.92rem; margin-bottom:10px; }
+  .footer-col a{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--muted);
+    text-decoration:none;
+    font-size:.92rem;
+    margin-bottom:14px;
+    transition:color .25s;
+  }
+  .footer-col a:hover{ color:var(--teal); }
+  .footer-col a i{ color:var(--gold); width:18px; text-align:center; }
+
+  .footer-bottom{
+    max-width:1140px;
+    margin:0 auto;
+    padding-top:26px;
+    border-top:1px solid var(--border);
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    align-items:center;
+    justify-content:space-between;
+    color:var(--muted);
+    font-size:.85rem;
+  }
+  .footer-bottom .socials{
+    display:flex;
+    gap:14px;
+  }
+  .footer-bottom .socials a{
+    width:40px; height:40px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(217,179,106,.12);
+    color:var(--gold);
+    text-decoration:none;
+    transition:.25s;
+  }
+  .footer-bottom .socials a:hover{ background:var(--teal); color:var(--navy-deep); }
+
+  /* ===== زر التواصل العائم (تيليجرام) ===== */
+  .floating-btn{
+    position:fixed;
+    bottom:28px;
+    left:28px;
+    z-index:200;
+    width:58px; height:58px;
+    border-radius:50%;
+    background:var(--teal);
+    color:var(--navy-deep);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.6rem;
+    text-decoration:none;
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+    animation:pulse 2.6s infinite;
+    transition:transform .25s, background .25s;
+  }
+  .floating-btn:hover{ background:var(--gold); transform:scale(1.08); }
+  @keyframes pulse{
+    0%, 100% { box-shadow:0 10px 30px rgba(0,0,0,.45), 0 0 0 0 rgba(63,208,201,.45); }
+    50% { box-shadow:0 10px 30px rgba(0,0,0,.45), 0 0 0 12px rgba(63,208,201,0); }
+  }
+
+  /* ===== تجاوب مع الشاشات الصغيرة ===== */
+  @media (max-width: 880px){
+    .nav-toggle{ display:flex; order:3; }
+    .nav-links{
+      position:absolute;
+      top:100%; right:0; left:0;
+      flex-direction:column;
+      align-items:stretch;
+      gap:0;
+      background:rgba(8,15,25,.96);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--border);
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .35s ease;
+    }
+    .nav-links.open{ max-height:420px; }
+    .nav-links a{
+      padding:16px 6vw;
+      border-bottom:1px solid rgba(217,179,106,.12);
+    }
+    .nav-cta{
+      justify-content:center;
+      border-radius:0;
+      margin:0;
+    }
+  }
+
+  @media (max-width: 600px){
+    .navbar{ padding:14px 5vw; }
+    .hero{ padding:120px 4vw 70px; }
+    .hero-card{ padding:36px 24px; }
+    .section{ padding:70px 5vw; }
+    .floating-btn{ left:18px; bottom:18px; width:52px; height:52px; font-size:1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- خلفية الموقع: صورتك الخاصة، تغطي الشاشة بالكامل وتبقى ثابتة وواضحة -->
+  <div class="bg-fixed"></div>
+
+  <!-- ===== الهيدر العلوي ===== -->
+  <header class="navbar">
+    <a href="#home" class="nav-brand">ABM <span>المتجر الرقمي</span></a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#home">الرئيسية</a>
+      <a href="#books">الكتب وملفات PDF</a>
+      <a href="#software">البرامج والألعاب</a>
+      <a href="#payment">طريقة الدفع</a>
+      <a href="#contact">تواصل معنا</a>
+      <a href="https://t.me/your_handle" target="_blank" rel="noopener" class="nav-cta">
+        <i class="fa-brands fa-telegram"></i> تيليجرام
+      </a>
+    </nav>
+
+    <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+    <!-- ===== قسم الترحيب ===== -->
+    <section id="home" class="hero">
+      <div class="hero-card">
+        <span class="eyebrow">مرحباً بك</span>
+        <h1>أهلاً بك في متجر ABM الرقمي</h1>
+        <p>
+          هذا المتجر مخصص لبيع منتجاتي الرقمية الخاصة: كتب وملفات PDF،
+          إضافة إلى برامج وألعاب إلكترونية مختارة بعناية.
+          تصفّح الأقسام أدناه، واختر ما يناسبك، وتواصل معي مباشرة
+          عبر تيليجرام أو البريد الإلكتروني لإتمام عملية الشراء.
+        </p>
+        <div class="hero-actions">
+          <a href="#books" class="btn btn-primary">
+            <i class="fa-solid fa-book-open"></i> تصفح الكتب وملفات PDF
+          </a>
+          <a href="#software" class="btn btn-outline">
+            <i class="fa-solid fa-gamepad"></i> البرامج والألعاب
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== قسم الكتب وملفات PDF ===== -->
+    <section id="books" class="section">
+      <div class="section-head">
+        <span class="eyebrow">القسم الأول</span>
+        <h2>الكتب وملفات PDF</h2>
+        <p>مجموعة من الكتب والملفات الإلكترونية المُعدّة بعناية، جاهزة للحصول عليها بعد إتمام الشراء.</p>
+        <div class="divider"></div>
+      </div>
+
+      <div class="grid">
+        <!-- بطاقة منتج: كرر هذا القالب لكل كتاب / ملف -->
+        <article class="card">
+          <div class="card-icon"><i class="fa-solid fa-book"></i></div>
+          <h3>عنوان الكتاب الأول</h3>
+          <p>وصف مختصر يوضّح محتوى الكتاب والفائدة التي سيحصل عليها القارئ منه.</p>
+          <div class="card-footer">
+            <span class="price">السعر يُحدد لاحقاً</span>
+            <a href="#contact" class="btn btn-small">عرض التفاصيل</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon"><i class="fa-solid fa-file-pdf"></i></div>
+          <h3>ملف PDF متخصص</h3>
+          <p>وصف مختصر للملف، نوع المحتوى، وآخر تحديث له، بصياغة واضحة وموجزة.</p>
+          <div class="card-footer">
+            <span class="price">السعر يُحدد لاحقاً</span>
+            <a href="#contact" class="btn btn-small">عرض التفاصيل</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon"><i class="fa-solid fa-book-open"></i></div>
+          <h3>عنوان الكتاب الثاني</h3>
+          <p>وصف مختصر يوضّح محتوى الكتاب والفائدة التي سيحصل عليها القارئ منه.</p>
+          <div class="card-footer">
+            <span class="price">السعر يُحدد لاحقاً</span>
+            <a href="#contact" class="btn btn-small">عرض التفاصيل</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== قسم البرامج والألعاب ===== -->
+    <section id="software" class="section alt">
+      <div class="section-head">
+        <span class="eyebrow">القسم الثاني</span>
+        <h2>البرامج والألعاب الإلكترونية</h2>
+        <p>تطبيقات وبرامج وألعاب مختارة، مع وصف واضح لكل منتج قبل الشراء.</p>
+        <div class="divider"></div>
+      </div>
+
+      <div class="grid">
+        <!-- بطاقة منتج: كرر هذا القالب لكل برنامج / لعبة -->
+        <article class="card">
+          <div class="card-icon"><i class="fa-solid fa-laptop-code"></i></div>
+          <h3>اسم البرنامج</h3>
+          <p>وصف مختصر لوظيفة البرنامج، الأنظمة المتوافقة معه، وطريقة الاستخدام.</p>
+          <div class="card-footer">
+            <span class="price">السعر يُحدد لاحقاً</span>
+            <a href="#contact" class="btn btn-small">عرض التفاصيل</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon"><i class="fa-solid fa-gamepad"></i></div>
+          <h3>اسم اللعبة</h3>
+          <p>وصف مختصر للعبة، طريقة اللعب، والأنظمة التي تعمل عليها.</p>
+          <div class="card-footer">
+            <span class="price">السعر يُحدد لاحقاً</span>
+            <a href="#contact" class="btn btn-small">عرض التفاصيل</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon"><i class="fa-solid fa-compact-disc"></i></div>
+          <h3>ملف تقني / أداة</h3>
+          <p>وصف مختصر للأداة أو الملف التقني والغرض منه وكيفية الاستفادة منه.</p>
+          <div class="card-footer">
+            <span class="price">السعر يُحدد لاحقاً</span>
+            <a href="#contact" class="btn btn-small">عرض التفاصيل</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== قسم طريقة الدفع ===== -->
+    <section id="payment" class="section">
+      <div class="section-head">
+        <span class="eyebrow">القسم الثالث</span>
+        <h2>طريقة الدفع</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="payment-card">
+        <div class="pay-icon"><i class="fa-solid fa-wallet"></i></div>
+        <h2>زين كاش</h2>
+        <p>
+          سيتم تفعيل الدفع عبر تطبيق زين كاش قريباً لتسهيل عملية الشراء.
+          إلى حين تفعيلها، يمكنك التواصل معي مباشرة عبر تيليجرام أو
+          البريد الإلكتروني للاتفاق على طريقة الدفع.
+        </p>
+        <span class="badge">قريباً</span>
+      </div>
+    </section>
+
+    <!-- ===== قسم التواصل ===== -->
+    <section id="contact" class="section alt">
+      <div class="section-head">
+        <span class="eyebrow">تواصل معي</span>
+        <h2>للاستفسار أو الشراء</h2>
+        <p>يسعدني تواصلك معي عبر أي من الوسيلتين التاليتين، وسأقوم بالرد في أقرب وقت ممكن.</p>
+        <div class="divider"></div>
+      </div>
+
+      <div class="contact-grid">
+        <a href="https://t.me/your_handle" target="_blank" rel="noopener" class="contact-card">
+          <i class="fa-brands fa-telegram"></i>
+          <h3>تيليجرام</h3>
+          <span>@your_handle</span>
+        </a>
+
+        <a href="mailto:info@abm-stuff.com" class="contact-card">
+          <i class="fa-solid fa-envelope"></i>
+          <h3>البريد الإلكتروني</h3>
+          <span>info@abm-stuff.com</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== التذييل ===== -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>ABM Store</h4>
+        <p>متجر رقمي خاص لبيع الكتب وملفات PDF، والبرامج، والألعاب الإلكترونية بجودة وثقة.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>روابط سريعة</h4>
+        <a href="#books"><i class="fa-solid fa-book"></i> الكتب وملفات PDF</a>
+        <a href="#software"><i class="fa-solid fa-gamepad"></i> البرامج والألعاب</a>
+        <a href="#payment"><i class="fa-solid fa-wallet"></i> طريقة الدفع</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>تواصل معي</h4>
+        <a href="https://t.me/your_handle" target="_blank" rel="noopener"><i class="fa-brands fa-telegram"></i> @your_handle</a>
+        <a href="mailto:info@abm-stuff.com"><i class="fa-solid fa-envelope"></i> info@abm-stuff.com</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>طرق الدفع</h4>
+        <p><i class="fa-solid fa-wallet" style="color:var(--gold); margin-left:6px;"></i> زين كاش — قريباً</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 ABM Store — جميع الحقوق محفوظة</p>
+      <div class="socials">
+        <a href="https://t.me/your_handle" target="_blank" rel="noopener" aria-label="تيليجرام"><i class="fa-brands fa-telegram"></i></a>
+        <a href="mailto:info@abm-stuff.com" aria-label="البريد الإلكتروني"><i class="fa-solid fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== زر التواصل العائم ===== -->
+  <a href="https://t.me/your_handle" target="_blank" rel="noopener" class="floating-btn" aria-label="تواصل عبر تيليجرام">
+    <i class="fa-brands fa-telegram"></i>
+  </a>
+
+  <script>
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+  </script>
+</body>
+</html>
